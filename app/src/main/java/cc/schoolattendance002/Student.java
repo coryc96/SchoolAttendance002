@@ -9,12 +9,15 @@ public class Student {
     int _id;
     String _name;
     String _email;
+    int _isPresent;
 
     public Student(){}
-    public Student(int id, String name, String email){
+    public Student(int id, String name, String email, int _isPresent){
         this._id = id;
         this._name = name;
         this._email = email;
+        this._isPresent = _isPresent;
+
     }
 
     public int get_ID(){
@@ -38,5 +41,13 @@ public class Student {
 
     public void set_Email(String email){
         this._email = email;
+    }
+
+    public int get_isPresent(){
+        return this._isPresent;
+    }
+
+    public void set_isPresent(int isPresent){
+        this._isPresent = isPresent;
     }
 }

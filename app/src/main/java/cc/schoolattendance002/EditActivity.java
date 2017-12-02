@@ -70,10 +70,9 @@ public class EditActivity extends AppCompatActivity {
 
         db = new DBHandler(this);
 
-        if (db.getStudentCount() != 0){if (db.getStudentCount() > 0){
+       if (db.getStudentCount() > 0){
             prepareFields();
-            }
-        }
+       }
 
 
     }

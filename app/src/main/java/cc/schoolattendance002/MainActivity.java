@@ -22,4 +22,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void goToRollPage(View view){
+        Intent intent = new Intent(this, TakeRollActivity.class);
+        startActivity(intent);
+    }
+
 }

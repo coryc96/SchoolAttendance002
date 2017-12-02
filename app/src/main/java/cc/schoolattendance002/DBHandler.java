@@ -15,12 +15,13 @@ import java.util.List;
 
 public class DBHandler extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "studentManager";
     private static final String TABLE_CONTACTS = "students";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_PRESENT = "present";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -31,7 +32,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_CONTACTS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT,"
-                + KEY_EMAIL + " TEXT" + ")";
+                + KEY_EMAIL + " TEXT," + KEY_PRESENT + " INTEGER" + ")";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -51,7 +52,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, student.get_Name()); // Contact Name
-        values.put(KEY_EMAIL, student.get_Email()); // Contact Phone
+        values.put(KEY_EMAIL, student.get_Email()); // Contact Email
+        values.put(KEY_PRESENT, student.get_isPresent()); // Contact Present
 
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);
@@ -70,7 +72,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor.moveToFirst();
 
         Student student = new Student(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(1), cursor.getString(2), cursor.getInt(3));
         // return contact
         return student;
     }
@@ -82,6 +84,7 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, student.get_Name());
         values.put(KEY_EMAIL, student.get_Email());
+        values.put(KEY_PRESENT, student.get_isPresent());
 
         // updating row
         return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
@@ -125,6 +128,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 student.set_ID(Integer.parseInt(cursor.getString(0)));
                 student.set_Name(cursor.getString(1));
                 student.set_Email(cursor.getString(2));
+                student.set_isPresent(Integer.parseInt(cursor.getString(3)));
                 // Adding contact to list
                 studentList.add(student);
             } while (cursor.moveToNext());
