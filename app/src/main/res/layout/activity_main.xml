@@ -79,6 +79,7 @@
             android:focusable="true"
             android:onClick="goToEditPage">
 
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -89,13 +90,13 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="50dp"
-                    android:fontFamily="casual"
-                    android:text="Add/Remove/Edit Students"
+                    android:fontFamily="@font/alegreya_sans_sc_medium"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="Add/Remove Students"
                     android:textAllCaps="false"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"/>
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
@@ -126,7 +127,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="50dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/alegreya_sans_sc_medium"
                     android:text="Take Roll"
                     android:textAllCaps="false"
                     android:textSize="16sp"
@@ -163,7 +164,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="50dp"
-                    android:fontFamily="casual"
+                    android:fontFamily="@font/alegreya_sans_sc_medium"
                     android:text="Check Attendance Log"
                     android:textAllCaps="false"
                     android:textSize="16sp"

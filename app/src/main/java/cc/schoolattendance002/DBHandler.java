@@ -98,18 +98,20 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Getting student count
     public int getStudentCount() {
+        int count;
         String countQuery = "SELECT  * FROM " + TABLE_CONTACTS;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        count = cursor.getCount();
         cursor.close();
 
         // return count
-        return cursor.getCount();
+        return count;
     }
 
     // code to get all students in a list view
-    public List<Student> getAllStudents() {
-        List<Student> studentList = new ArrayList<Student>();
+    public ArrayList<Student> getAllStudents() {
+        ArrayList<Student> studentList = new ArrayList<Student>();
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_CONTACTS;
 

@@ -21,8 +21,8 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".EditActivity">
-        </activity>
+        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".TakeRollActivity"></activity>
     </application>
 
 </manifest>

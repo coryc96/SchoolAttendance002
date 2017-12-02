@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,8 +20,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.widget.ListPopupWindow.MATCH_PARENT;
 import static android.widget.ListPopupWindow.WRAP_CONTENT;
@@ -63,7 +70,74 @@ public class EditActivity extends AppCompatActivity {
 
         db = new DBHandler(this);
 
+        if (db.getStudentCount() != 0){if (db.getStudentCount() > 0){
+            prepareFields();
+            }
+        }
 
+
+    }
+
+    public void prepareFields(){
+
+        linearLayout.removeView(findViewById(R.id.cardView));
+
+        ArrayList<Student> studentList = db.getAllStudents();
+
+        for(int i = 0; i < db.getStudentCount(); i++){
+
+            final Student current = studentList.get(i);
+
+            RelativeLayout relativeLayout = new RelativeLayout(this);
+
+            studentsCard[i] = new CardView(this);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            studentsCard[i].setLayoutParams(params);
+
+            ViewGroup.MarginLayoutParams layoutParams =
+                    (ViewGroup.MarginLayoutParams) studentsCard[i].getLayoutParams();
+            layoutParams.setMargins(30,15,30,5);
+
+            studentsCard[i].requestLayout();
+            studentsCard[i].setRadius(15);
+            studentsCard[i].setPadding(25, 25, 25, 25);
+            studentsCard[i].setMaxCardElevation(30);
+            studentsCard[i].setMaxCardElevation(6);
+
+            linearLayout.addView(studentsCard[i]);
+            studentsCard[i].addView(relativeLayout);
+
+            ImageButton delete = new ImageButton(this);
+            relativeLayout.addView(delete);
+            RelativeLayout.LayoutParams btnParams = (RelativeLayout.LayoutParams)delete.getLayoutParams();
+            btnParams.addRule(RelativeLayout.ALIGN_PARENT_END);
+            btnParams.addRule(RelativeLayout.CENTER_VERTICAL);
+            delete.setLayoutParams(btnParams);
+            delete.setImageResource(R.drawable.ic_delete_forever_24dp);
+            delete.setBackgroundColor(getResources().getColor(R.color.white));
+            delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertPopup(current);
+                }
+            });
+
+
+
+            studentsText[i] = new TextView(this);
+            studentsText[i].setLayoutParams(params);
+            studentsText[i].setGravity(Gravity.LEFT);
+            studentsText[i].setTextSize(20);
+
+
+            relativeLayout.addView(studentsText[i]);
+
+            String text = String.format("Name: %s\nEmail: %s", current.get_Name(), current.get_Email());
+            studentsText[i].setText(text);
+
+        }
     }
 
     public void goToIDPopup(View view){
@@ -92,7 +166,7 @@ public class EditActivity extends AppCompatActivity {
                 student.set_ID(edit_id);
 
                 dialogInterface.dismiss();
-                goToNamePopup();
+                //goToNamePopup();
             }
         });
 
@@ -101,43 +175,9 @@ public class EditActivity extends AppCompatActivity {
         AlertDialog alertDialog = alert.create();
         alertDialog.getWindow().setLayout(MATCH_PARENT, MATCH_PARENT);
         alertDialog.show();
-
-/*
-
-        id_Dialog = new Dialog(EditActivity.this, android.R.style.Theme_Material_Light_Dialog);
-        final EditText editID = id_Dialog.findViewById(R.id.editID);
-        id_Dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(id_Dialog.getWindow().getAttributes());
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        id_Dialog.show();
-        id_Dialog.getWindow().setAttributes(lp);
-        id_Dialog.setContentView(R.layout.add_student_id);
-        id_Dialog.setCancelable(true);
-        id_Dialog.show();
-
-        /*editID.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void afterTextChanged(Editable editable) {
-                if(!(editID.length() == 0 || editID.equals("") || editID == null)) {
-                    edit_id = Integer.parseInt(editID.toString());
-                }
-            }
-        });
-        String tmp = editID.getText().toString();
-        if(!(tmp.length() == 0 || tmp.equals("") || tmp == null)) {
-            edit_id = Integer.parseInt(tmp);
-        }
-        student.set_ID(edit_id);
-*/
     }
 
-    public void goToNamePopup(){
+    public void goToNamePopup(View view){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.add_student_name, null);
 
@@ -214,41 +254,30 @@ public class EditActivity extends AppCompatActivity {
         Log.d("Insert: ", "Inserting ..");
         db.addStudent(student);
 
-        linearLayout.removeView(findViewById(R.id.cardView));
+        linearLayout.removeAllViews();
+        prepareFields();
+    }
 
-        studentsCard[numStudents] = new CardView(this);
+    public void alertPopup(final Student student){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String message = String.format("Delete info on %s? This action cannot be undone.", student.get_Name());
+        builder.setMessage(message)
+                .setTitle("Warning:");
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        studentsCard[numStudents].setLayoutParams(params);
-
-        ViewGroup.MarginLayoutParams layoutParams =
-                (ViewGroup.MarginLayoutParams) studentsCard[numStudents].getLayoutParams();
-        layoutParams.setMargins(30,15,30,5);
-
-
-        //if(numClasses > 0)
-        //  params.addRule(RelativeLayout.BELOW, classesCard[numClasses-1].getId());
-
-        //classesCard[numClasses].setLayoutParams(params);
-        studentsCard[numStudents].requestLayout();
-        studentsCard[numStudents].setRadius(15);
-        studentsCard[numStudents].setPadding(25, 25, 25, 25);
-        studentsCard[numStudents].setMaxCardElevation(30);
-        studentsCard[numStudents].setMaxCardElevation(6);
-
-        linearLayout.addView(studentsCard[numStudents]);
-
-        studentsText[numStudents] = new TextView(this);
-        studentsText[numStudents].setLayoutParams(params);
-        studentsText[numStudents].setGravity(Gravity.CENTER);
-        studentsText[numStudents].setTextSize(20);
-
-
-        studentsCard[numStudents].addView(studentsText[numStudents]);
-
-        String text = String.format("Name: %s\nID: %d\nEmail: %s", student.get_Name(), student.get_ID(), student.get_Email());
-        studentsText[numStudents].setText(text);
-        numStudents++;
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                db.deleteStudent(student);
+                linearLayout.removeAllViews();
+                prepareFields();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
 }

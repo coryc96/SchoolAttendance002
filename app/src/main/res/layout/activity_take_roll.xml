@@ -5,8 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cc.schoolattendance002.EditActivity">
+
+    <TextView
+        android:id="@+id/textCheckAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Check All"
+        android:textSize="15dp"
+        android:layout_margin="15dp"
+        android:layout_toLeftOf="@+id/checkAll"
+        />
+    <CheckBox
+        android:id="@+id/checkAll"
+        android:layout_alignBaseline="@+id/textCheckAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:onClick="checkAll"/>
     <ScrollView
         android:id="@+id/scrollView"
+        android:layout_below="@id/checkAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -42,18 +60,6 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@drawable/ic_add_24dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="30dp"
-        app:fabSize="mini"
-        android:onClick="goToNamePopup"/>
 
 
 </RelativeLayout>
