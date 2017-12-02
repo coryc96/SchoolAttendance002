@@ -36,7 +36,7 @@ public class Student {
         return this._email;
     }
 
-    public void set_Email(String name){
-        this._name = name;
+    public void set_Email(String email){
+        this._email = email;
     }
 }

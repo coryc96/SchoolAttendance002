@@ -46,12 +46,12 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // code to add the new contact
-    void addStudent(Student contact) {
+    void addStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, contact.get_Name()); // Contact Name
-        values.put(KEY_EMAIL, contact.get_Email()); // Contact Phone
+        values.put(KEY_NAME, student.get_Name()); // Contact Name
+        values.put(KEY_EMAIL, student.get_Email()); // Contact Phone
 
         // Inserting Row
         db.insert(TABLE_CONTACTS, null, values);

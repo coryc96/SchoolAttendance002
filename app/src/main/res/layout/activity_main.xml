@@ -90,7 +90,7 @@
                     android:layout_centerInParent="true"
                     android:layout_marginTop="50dp"
                     android:fontFamily="casual"
-                    android:text="Add or Remove Students"
+                    android:text="Add/Remove/Edit Students"
                     android:textAllCaps="false"
                     android:textSize="16sp"
                     android:textStyle="bold"
